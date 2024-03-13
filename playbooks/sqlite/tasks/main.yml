@@ -1,0 +1,6 @@
+# vim:ft=yaml.ansible
+---
+- name: "Install sqlite3"
+  ansible.builtin.apt:
+    name: sqlite3
+    state: present

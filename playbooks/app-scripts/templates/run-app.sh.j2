@@ -1,0 +1,15 @@
+#!/bin/bash
+# Stop and remove the container
+docker container stop app
+docker container rm app
+docker container prune --force
+
+# Build
+cd app
+docker image prune --force
+docker image build -t app .
+
+# Run
+docker container run --env-file .env -v {{ home }}/data/sqlite.db:/usr/local/app/sqlite.db --rm app npm run db:migrate
+docker container run -d -p 3000:3000 --env-file .env -v {{ home }}/data/sqlite.db:/usr/local/app/sqlite.db --name app app
+cd ..
